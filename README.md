@@ -21,7 +21,7 @@ Ideal for scripts, CLI tools, and logs that need readable, structured, or visual
 You can install directly from this GitHub repository:
 
 ```bash
-pip install git+https://github.com/sleepingHimazin/fprint.git
+pip install git+https://github.com/codria/fprint.git
 ```
 
 ---
