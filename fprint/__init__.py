@@ -26,24 +26,26 @@ def apply_color(text: str, color: str, is_bg: bool = False) -> str:
     """色を適用（HEXコードまたは名前）"""
     if color in ["", "none"]:
         return text
-    
-    # 背景色のチェック
-    valid_background_colors = [
-        'black', 'white', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow'
-    ]
-    
-    if re.match(r"^#([A-Fa-f0-9]{6})$", color):  # HEXカラーコードの場合
+
+    valid_colors = ['black', 'white', 'red', 'green', 'blue', 'cyan', 'magenta', 'yellow']
+
+    # HEXカラーの場合
+    if re.match(r"^#([A-Fa-f0-9]{6})$", color):
         r, g, b = hex_to_rgb(color)
         return rgb_to_ansi(r, g, b, is_bg) + text
-    elif not is_bg and color in valid_background_colors:
-        # 通常の色名の場合
-        return colored(text, color)
-    elif is_bg and color in valid_background_colors:
-        # 背景色用の色名
-        return colored(text, on_color=f"on_{color}")
-    else:
-        # 不正な背景色が指定された場合
-        raise ValueError(f"Invalid color for background: '{color}'. Valid options are: {', '.join(valid_background_colors)}")
+
+    # 色名の場合
+    if color in valid_colors:
+        color_type = f"on_{color}" if is_bg else color
+        try:
+            # termcolorはANSIコードを付けるだけなのでrepr不要
+            return colored(text, color_type) if not is_bg else colored(text, on_color=color_type)
+        except Exception:
+            pass
+
+    # 無効な色指定
+    raise ValueError(f"Invalid color: '{color}'. Valid options are: {', '.join(valid_colors)}")
+
 
 
 #==================== テーブル整形用 文字数設定 ====================#
@@ -144,11 +146,11 @@ if __name__=="__main__":
     fprint("これは長い文字列ですが...", "短い文字列", row_width=10, fc="yellow", bc="#333333", bold=True)
     fprint("センタリング", row_width=20, centering=True)
     fprint("太字の文字", fc="red", bold=True)
-    fprint("aiueo", indent=2)
-    fprint("aiueo", indent=2, show_lineno=True)
-    fprint("fc:black,bc:white", indent=2, fc="black", bc="white", show_lineno=True)
-    fprint("fc:18,bc:33", indent=2, fc="#181818", bc="#333333", show_lineno=True)
-    fprint("fc:white", indent=2, fc="white", show_lineno=True)
-    fprint("fc:black", indent=2, fc="black", show_lineno=True)
-    fprint("bc:white", indent=2, bc="white", show_lineno=True)
-    fprint("bc:black", indent=2, bc="black", show_lineno=True)
+    fprint("インデント2", indent=2)
+    fprint("インデント2, ライン番号表示", indent=2, show_lineno=True)
+    fprint("fc:black, bc:white, インデント2, ライン番号表示", indent=2, fc="black", bc="white", show_lineno=True)
+    fprint("fc:18, bc:33, インデント2, ライン番号表示", indent=2, fc="#181818", bc="#333333", show_lineno=True)
+    fprint("fc:white, インデント2, ライン番号表示", indent=2, fc="white", show_lineno=True)
+    fprint("fc:black, インデント2, ライン番号表示", indent=2, fc="black", show_lineno=True)
+    fprint("bc:white, インデント2, ライン番号表示", indent=2, bc="white", show_lineno=True)
+    fprint("bc:black, インデント2, ライン番号表示", indent=2, bc="black", show_lineno=True)
