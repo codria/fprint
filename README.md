@@ -64,7 +64,7 @@ You can also run the same example directly via `sample.py` to see the output imm
 
 | Name         | Type     | Description                                            |
 |--------------|----------|--------------------------------------------------------|
-| `\*args`     | str(s)   | Strings to print                                       |
+| `*args`     | str(s)   | Strings to print                                       |
 | `indent`     | int      | Indentation level (2 spaces per level)                 |
 | `fc`         | str      | Foreground color (name or HEX)                         |
 | `bc`         | str      | Background color (name or HEX)                         |
